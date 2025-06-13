@@ -59,6 +59,6 @@ type Vehicle struct {
 	// Id is the unique identifier of the vehicle
 	Id int
 
-	// VehicleAttribue is the attributes of a vehicle
+	// VehicleAttributes is the attributes of a vehicle
 	VehicleAttributes
 }
