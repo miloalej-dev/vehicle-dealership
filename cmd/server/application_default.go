@@ -72,6 +72,27 @@ func (a *ChiServer) Run() (err error) {
 	rt.Route("/vehicles", func(rt chi.Router) {
 		// - GET /vehicles
 		rt.Get("/", hd.GetAll())
+		rt.Get("/color/{color}/year/{year}", hd.GetByColorAndYear)
+		rt.Get("/brand/{brand}/year/{startYear}/{endYear}", hd.GetByBrandAndBetweenYears)
+		rt.Get("/average_speed/brand/{brand}", hd.GetSpeedAverageByBrand)
+		rt.Get("/fuel_type/{type}", hd.GetByFuelType)
+		rt.Get("/transmission/{transmission}", hd.GetByTransmissionType)
+		rt.Get("/average_capacity/brand/{brand}", hd.GetCapacityAverageByBrand)
+		rt.Get("/dimensions", hd.GetByDimensions)
+		rt.Get("/weight", hd.GetByWeight)
+
+		// - POST /vehicles
+		rt.Post("/", hd.CreateVehicle)
+		rt.Post("/batch", hd.CreateVehicles)
+
+		// - PUT /vehicles/{id}
+		rt.Put("/{id}/update_fuel", hd.UpdateFuelType)
+
+		// - PATCH /vehicles/{id}
+		rt.Patch("/{id}/update_speed", hd.UpdateMaxSpeed)
+
+		// - DELETE /vehicles/{id}
+		rt.Delete("/{id}", hd.DeleteVehicle)
 	})
 
 	// run server
