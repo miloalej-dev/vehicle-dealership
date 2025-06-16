@@ -45,6 +45,8 @@ func (r *VehicleMap) FindByID(id int) (v models.Vehicle, err error) {
 
 // FindByBrand is a method that returns a map of vehicles by brand
 func (r *VehicleMap) FindByBrand(brand string) (v map[int]models.Vehicle, err error) {
+	v = make(map[int]models.Vehicle)
+
 	for key, vehicle := range r.db {
 		if vehicle.Brand == brand {
 			v[key] = vehicle
@@ -55,6 +57,8 @@ func (r *VehicleMap) FindByBrand(brand string) (v map[int]models.Vehicle, err er
 
 // FindByTransmission is a method that returns a map of vehicles by transmission
 func (r *VehicleMap) FindByTransmission(transmission string) (v map[int]models.Vehicle, err error) {
+	v = make(map[int]models.Vehicle)
+
 	for key, vehicle := range r.db {
 		if vehicle.Transmission == transmission {
 			v[key] = vehicle
@@ -65,8 +69,10 @@ func (r *VehicleMap) FindByTransmission(transmission string) (v map[int]models.V
 
 // FindByColorAndYear is a method that returns a map of vehicles by color and year
 func (r *VehicleMap) FindByColorAndYear(color string, year int) (v map[int]models.Vehicle, err error) {
+	v = make(map[int]models.Vehicle)
+
 	for key, vehicle := range r.db {
-		if vehicle.Color != color && vehicle.FabricationYear != year {
+		if vehicle.Color == color && vehicle.FabricationYear == year {
 			v[key] = vehicle
 		}
 	}
@@ -75,6 +81,8 @@ func (r *VehicleMap) FindByColorAndYear(color string, year int) (v map[int]model
 
 // FindByBrandAndBetweenYears is a method that returns a map of vehicles by brand and between years
 func (r *VehicleMap) FindByBrandAndBetweenYears(brand string, startYear, endYear int) (v map[int]models.Vehicle, err error) {
+	v = make(map[int]models.Vehicle)
+
 	for key, vehicle := range r.db {
 		if vehicle.Brand == brand && vehicle.FabricationYear >= startYear && vehicle.FabricationYear <= endYear {
 			v[key] = vehicle
@@ -85,6 +93,8 @@ func (r *VehicleMap) FindByBrandAndBetweenYears(brand string, startYear, endYear
 
 // FindByFuelType is a method that returns a map of vehicles by fuel type
 func (r *VehicleMap) FindByFuelType(fuel string) (v map[int]models.Vehicle, err error) {
+	v = make(map[int]models.Vehicle)
+
 	for key, vehicle := range r.db {
 		if vehicle.FuelType == fuel {
 			v[key] = vehicle
@@ -95,6 +105,8 @@ func (r *VehicleMap) FindByFuelType(fuel string) (v map[int]models.Vehicle, err 
 
 // FindByDimensions is a method that returns a map of vehicles by dimensions
 func (r *VehicleMap) FindByDimensions(minLength, maxLength, minWidth, maxWidth float64) (v map[int]models.Vehicle, err error) {
+	v = make(map[int]models.Vehicle)
+
 	for key, vehicle := range r.db {
 		if vehicle.Length >= minLength && vehicle.Length <= maxLength && vehicle.Width >= minWidth && vehicle.Width <= maxWidth {
 			v[key] = vehicle
@@ -105,6 +117,8 @@ func (r *VehicleMap) FindByDimensions(minLength, maxLength, minWidth, maxWidth f
 
 // FindByWeight is a method that returns a map of vehicles by weight
 func (r *VehicleMap) FindByWeight(minWeight, maxWeight float64) (v map[int]models.Vehicle, err error) {
+	v = make(map[int]models.Vehicle)
+
 	for key, vehicle := range r.db {
 		if vehicle.Weight >= minWeight && vehicle.Weight <= maxWeight {
 			v[key] = vehicle
@@ -129,6 +143,7 @@ func (r *VehicleMap) Save(vehicle models.Vehicle) (v models.Vehicle, err error) 
 
 // SaveAll is a method that saves all vehicles
 func (r *VehicleMap) SaveAll(vehicles []models.Vehicle) (v map[int]models.Vehicle, err error) {
+	v = make(map[int]models.Vehicle)
 
 	for _, vehicle := range vehicles {
 		// validate if the vehicle already exists
