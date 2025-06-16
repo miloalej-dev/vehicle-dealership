@@ -73,7 +73,7 @@ func (a *ChiServer) Run() (err error) {
 		// - GET /vehicles
 		rt.Get("/", hd.GetAll())
 		rt.Get("/color/{color}/year/{year}", hd.GetByColorAndYear)
-		rt.Get("/brand/{brand}/between/{startYear}/{endYear}", hd.GetByBrandAndBetweenYears)
+		rt.Get("/brand/{brand}/between/{start_year}/{end_year}", hd.GetByBrandAndBetweenYears)
 		rt.Get("/average_speed/brand/{brand}", hd.GetSpeedAverageByBrand)
 		rt.Get("/fuel_type/{type}", hd.GetByFuelType)
 		rt.Get("/transmission/{transmission}", hd.GetByTransmissionType)
