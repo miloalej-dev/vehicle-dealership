@@ -5,11 +5,13 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/miloalej-dev/vehicle-dealership/internal/service"
 	"github.com/miloalej-dev/vehicle-dealership/pkg/models"
+	"golang.org/x/text/language"
 	"net/http"
 	"strconv"
 	"strings"
 
 	"github.com/bootcamp-go/web/response"
+	"golang.org/x/text/cases"
 )
 
 // NewVehicleDefault is a function that returns a new instance of VehicleDefault
@@ -77,7 +79,7 @@ func (h *VehicleDefault) GetByColorAndYear(w http.ResponseWriter, r *http.Reques
 		return
 	}
 
-	v, err := h.sv.GetVehiclesByColorAndYear(color, year)
+	v, err := h.sv.GetVehiclesByColorAndYear(cases.Title(language.English, cases.NoLower).String(color), year)
 
 	if err != nil {
 		response.JSON(w, http.StatusInternalServerError, map[string]any{
@@ -126,7 +128,7 @@ func (h *VehicleDefault) GetByBrandAndBetweenYears(w http.ResponseWriter, r *htt
 		return
 	}
 
-	v, err := h.sv.GetVehiclesByBrandAndBetweenYears(brand, startYear, endYear)
+	v, err := h.sv.GetVehiclesByBrandAndBetweenYears(cases.Title(language.English, cases.NoLower).String(brand), startYear, endYear)
 
 	if err != nil {
 		response.JSON(w, http.StatusInternalServerError, map[string]any{
@@ -173,7 +175,7 @@ func (h *VehicleDefault) GetSpeedAverageByBrand(w http.ResponseWriter, r *http.R
 		return
 	}
 
-	v, err := h.sv.AverageMaxSpeedByBrand(brand)
+	v, err := h.sv.AverageMaxSpeedByBrand(cases.Title(language.English, cases.NoLower).String(brand))
 
 	if err != nil {
 		response.JSON(w, http.StatusInternalServerError, map[string]any{
@@ -296,7 +298,7 @@ func (h *VehicleDefault) GetCapacityAverageByBrand(w http.ResponseWriter, r *htt
 		return
 	}
 
-	v, err := h.sv.AverageCapacityByBrand(brand)
+	v, err := h.sv.AverageCapacityByBrand(cases.Title(language.English, cases.NoLower).String(brand))
 
 	if err != nil {
 		response.JSON(w, http.StatusInternalServerError, map[string]any{
