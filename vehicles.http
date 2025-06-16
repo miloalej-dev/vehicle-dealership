@@ -1,4 +1,105 @@
 ### GET request to example server
 GET http://localhost:8080/vehicles
 
-###
+### GET request to obtain vehicles by color and year
+GET http://localhost:8080/vehicles/color/puce/year/2012
+
+### GET request to obtain vehicles by brand and years
+GET http://localhost:8080/vehicles/brand/bentley/between/1995/2012
+
+### GET request to obtain average speed by brand
+GET http://localhost:8080/vehicles/average_speed/brand/bentley
+
+### GET request to obtain vehicles by fuel type
+GET http://localhost:8080/vehicles/fuel_type/gasoline
+
+### GET request to obtain average capacity by brand
+GET http://localhost:8080/vehicles/average_capacity/brand/bentley
+
+### GET request to obtain vehicles by transmission
+GET http://localhost:8080/vehicles/transmission/automatic
+
+### GET request to obtain vehicles by dimesions
+GET http://localhost:8080/vehicles/dimensions?length=0-500&width=0-500
+
+### GET request to obtain vehicles by weight
+GET http://localhost:8080/vehicles/weight?min=160&max=200
+
+### POST request to create a new vehicle
+POST http://localhost:8080/vehicles
+Content-Type: application/json
+
+{
+  "id": 103,
+  "brand": "Bentley",
+  "model": "Continental GT",
+  "registration": "ABC123",
+  "color": "Puce",
+  "year": 2012,
+  "passengers": 5,
+  "max_speed": 300,
+  "fuel_type": "Gasoline",
+  "transmission": "Automatic",
+  "weight":150,
+  "height": 52.78,
+  "length": 47.63,
+  "width": 46.63
+}
+
+### POST request to create a vehicles list
+POST http://localhost:8080/vehicles/batch
+Content-Type: application/json
+
+[
+  {
+    "id": 104,
+    "brand": "Bentley",
+    "model": "Continental GT",
+    "registration": "ABC123",
+    "color": "Puce",
+    "year": 2012,
+    "passengers": 5,
+    "max_speed": 300,
+    "fuel_type": "Gasoline",
+    "transmission": "Automatic",
+    "weight":150,
+    "height": 52.78,
+    "length": 47.63,
+    "width": 46.63
+  },
+  {
+    "id": 105,
+    "brand": "Bentley",
+    "model": "Continental GT",
+    "registration": "ABC123",
+    "color": "Puce",
+    "year": 2012,
+    "passengers": 5,
+    "max_speed": 300,
+    "fuel_type": "Gasoline",
+    "transmission": "Automatic",
+    "weight":150,
+    "height": 52.78,
+    "length": 47.63,
+    "width": 46.63
+  }
+]
+
+### PATCH request to update the max speed of a vehicle
+PATCH http://localhost:8080/vehicles/1/update_speed
+Content-Type: application/json
+
+{
+  "max_speed": 350
+}
+
+### PUT request to update the fuel type of a vehicle
+PUT http://localhost:8080/vehicles/1/update_fuel
+Content-Type: application/json
+
+{
+  "fuel_type": "diesel"
+}
+
+### DELETE request to delete a vehicle
+DELETE http://localhost:8080/vehicles/1
