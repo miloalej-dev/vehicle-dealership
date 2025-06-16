@@ -240,7 +240,7 @@ func (h *VehicleDefault) GetByFuelType(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *VehicleDefault) GetByTransmissionType(w http.ResponseWriter, r *http.Request) {
-	transmission := chi.URLParam(r, "type")
+	transmission := chi.URLParam(r, "transmission")
 
 	if transmission == "" {
 		response.JSON(w, http.StatusBadRequest, map[string]any{
@@ -316,8 +316,8 @@ func (h *VehicleDefault) GetCapacityAverageByBrand(w http.ResponseWriter, r *htt
 }
 
 func (h *VehicleDefault) GetByDimensions(w http.ResponseWriter, r *http.Request) {
-	length := chi.URLParam(r, "length")
-	width := chi.URLParam(r, "width")
+	length := r.URL.Query().Get("length")
+	width := r.URL.Query().Get("width")
 
 	if length == "" || width == "" {
 		response.JSON(w, http.StatusBadRequest, map[string]any{
@@ -382,7 +382,7 @@ func (h *VehicleDefault) GetByDimensions(w http.ResponseWriter, r *http.Request)
 
 func (h *VehicleDefault) GetByWeight(w http.ResponseWriter, r *http.Request) {
 	minParam := r.URL.Query().Get("min")
-	maxParam := r.URL.Query().Get("maxParam")
+	maxParam := r.URL.Query().Get("max")
 
 	if minParam == "" || maxParam == "" {
 		response.JSON(w, http.StatusBadRequest, map[string]any{
@@ -432,7 +432,7 @@ func (h *VehicleDefault) GetByWeight(w http.ResponseWriter, r *http.Request) {
 	})
 }
 func (h *VehicleDefault) CreateVehicle(w http.ResponseWriter, r *http.Request) {
-	var vehicle models.Vehicle
+	var vehicle models.VehicleDoc
 	if err := json.NewDecoder(r.Body).Decode(&vehicle); err != nil {
 		response.JSON(w, http.StatusBadRequest, map[string]any{
 			"message": "Invalid request body",
@@ -441,7 +441,27 @@ func (h *VehicleDefault) CreateVehicle(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	v, err := h.sv.AddVehicle(vehicle)
+	v, err := h.sv.AddVehicle(
+		models.Vehicle{
+			Id: vehicle.ID,
+			VehicleAttributes: models.VehicleAttributes{
+				Brand:           vehicle.Brand,
+				Model:           vehicle.Model,
+				Registration:    vehicle.Registration,
+				Color:           vehicle.Color,
+				FabricationYear: vehicle.FabricationYear,
+				Capacity:        vehicle.Capacity,
+				MaxSpeed:        vehicle.MaxSpeed,
+				FuelType:        vehicle.FuelType,
+				Transmission:    vehicle.Transmission,
+				Dimensions: models.Dimensions{
+					Height: vehicle.Height,
+					Length: vehicle.Length,
+					Width:  vehicle.Width,
+				},
+			},
+		},
+	)
 
 	if err != nil {
 		response.JSON(w, http.StatusInternalServerError, map[string]any{
@@ -475,7 +495,7 @@ func (h *VehicleDefault) CreateVehicle(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *VehicleDefault) CreateVehicles(w http.ResponseWriter, r *http.Request) {
-	var vehicles []models.Vehicle
+	var vehicles []models.VehicleDoc
 	if err := json.NewDecoder(r.Body).Decode(&vehicles); err != nil {
 		response.JSON(w, http.StatusBadRequest, map[string]any{
 			"message": "Invalid request body",
@@ -483,8 +503,30 @@ func (h *VehicleDefault) CreateVehicles(w http.ResponseWriter, r *http.Request) 
 		})
 		return
 	}
+	newVehicles := make([]models.Vehicle, 0)
+	for _, v := range vehicles {
+		newVehicles = append(newVehicles, models.Vehicle{
+			Id: v.ID,
+			VehicleAttributes: models.VehicleAttributes{
+				Brand:           v.Brand,
+				Model:           v.Model,
+				Registration:    v.Registration,
+				Color:           v.Color,
+				FabricationYear: v.FabricationYear,
+				Capacity:        v.Capacity,
+				MaxSpeed:        v.MaxSpeed,
+				FuelType:        v.FuelType,
+				Transmission:    v.Transmission,
+				Dimensions: models.Dimensions{
+					Height: v.Height,
+					Length: v.Length,
+					Width:  v.Width,
+				},
+			},
+		})
+	}
 
-	v, err := h.sv.AddVehicles(vehicles)
+	v, err := h.sv.AddVehicles(newVehicles)
 
 	if err != nil {
 		response.JSON(w, http.StatusInternalServerError, map[string]any{
