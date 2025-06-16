@@ -138,6 +138,9 @@ func (r *VehicleMap) Save(vehicle models.Vehicle) (v models.Vehicle, err error) 
 		return
 	}
 
+	r.db[vehicle.Id] = vehicle
+	v = vehicle
+
 	return
 }
 
