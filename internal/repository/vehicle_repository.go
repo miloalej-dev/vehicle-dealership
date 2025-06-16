@@ -18,6 +18,8 @@ type VehicleRepository interface {
 	FindByBrandAndBetweenYears(brand string, startYear, endYear int) (v map[int]models.Vehicle, err error)
 	// FindByFuelType is a method that returns a map of vehicles by fuel type
 	FindByFuelType(fuel string) (v map[int]models.Vehicle, err error)
+	// FindByDimensions is a method that returns a map of vehicles by dimensions
+	FindByDimensions(minLength, maxLength, minWidth, maxWidth float64) (v map[int]models.Vehicle, err error)
 	// FindByWeight is a method that returns a map of vehicles by weight
 	FindByWeight(minWeight, maxWeight float64) (v map[int]models.Vehicle, err error)
 	// Save is a method that saves a vehicle
